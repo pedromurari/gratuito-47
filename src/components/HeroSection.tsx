@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
+import CityAutocomplete from '@/components/CityAutocomplete';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
@@ -31,7 +32,8 @@ const HeroSection = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: ''
+    phone: '',
+    cidade: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [utms, setUtms] = useState<Record<UtmKey, string>>({
@@ -76,7 +78,17 @@ const HeroSection = () => {
       });
       return;
     }
-    
+
+    // Validate city was selected from the autocomplete list
+    if (!formData.cidade.trim()) {
+      toast({
+        title: "Cidade obrigatória",
+        description: "Por favor, selecione sua cidade na lista de sugestões.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     // Format phone number for WhatsApp (remove formatting and add +55)
@@ -129,6 +141,7 @@ const HeroSection = () => {
       'Nome': trimmedName,
       'E-mail': trimmedEmail,
       'Whatsapp': whatsappNumber,
+      'Cidade': formData.cidade,
       'Data': new Date().toISOString(),
       utm_source: utms.utm_source,
       utm_medium: utms.utm_medium,
@@ -147,7 +160,7 @@ const HeroSection = () => {
         fetch('/api/crm-lead', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nome: trimmedName, email: trimmedEmail, whatsapp: whatsappNumber, ...utms }),
+          body: JSON.stringify({ nome: trimmedName, email: trimmedEmail, whatsapp: whatsappNumber, cidade: formData.cidade, ...utms }),
         }).then(async (r) => ({ ok: r.ok, data: r.ok ? await r.json() : null })),
         new Promise<{ ok: false; data: null }>((resolve) =>
           setTimeout(() => resolve({ ok: false, data: null }), 8000)
@@ -321,6 +334,15 @@ const HeroSection = () => {
                   </p>
                 )}
               </div>
+            </div>
+
+            <div>
+              <Label htmlFor="cidade" className="sr-only">Cidade</Label>
+              <CityAutocomplete
+                value={formData.cidade}
+                onChange={(cidade) => setFormData({ ...formData, cidade })}
+                isInvalid={false}
+              />
             </div>
 
             <Button 

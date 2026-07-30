@@ -31,7 +31,7 @@ export default async function handler(req: any, res: any): Promise<void> {
   }
 
   try {
-    const { nome, email, whatsapp, utm_source, utm_medium, utm_campaign, utm_content, utm_term } = req.body;
+    const { nome, email, whatsapp, cidade, utm_source, utm_medium, utm_campaign, utm_content, utm_term } = req.body;
 
     const now = new Date().toISOString();
     const phoneClean = (whatsapp ?? '').replace(/\D/g, '');
@@ -50,7 +50,7 @@ export default async function handler(req: any, res: any): Promise<void> {
         },
         body: JSON.stringify({
           lancamento_id: lancamentoId,
-          nome, email, whatsapp,
+          nome, email, whatsapp, cidade,
           fase: 'planilha', crm: false,
           data_entrada: now, ultima_atividade: now,
         }),
