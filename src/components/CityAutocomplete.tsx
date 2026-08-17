@@ -15,7 +15,7 @@ const normalize = (s: string) =>
 async function loadMunicipios(): Promise<Municipio[]> {
   if (cachedMunicipios) return cachedMunicipios;
   if (loadingPromise) return loadingPromise;
-  loadingPromise = fetch('https://servicodados.ibge.gov.br/api/v1/localidades/municipios')
+  loadingPromise = fetch('/api/municipios')
     .then((res) => res.json())
     .then((data: any[]) => {
       const parsed = data.map((m) => ({
