@@ -259,7 +259,7 @@ const HeroSection = () => {
             TURMA #47
           </p>
           <p className="text-lg md:text-xl font-semibold text-foreground">
-            13, 14 E 15 DE OUTUBRO
+            27, 28 E 29 DE OUTUBRO
           </p>
           <p className="text-md md:text-lg text-accent font-medium">
             AO VIVO NO YOUTUBE ÀS 20 HORAS
