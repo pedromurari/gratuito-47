@@ -5,6 +5,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
 import CityAutocomplete from '@/components/CityAutocomplete';
+import { VslPlayer } from '@/components/VslPlayer';
+
+const VSL_VIDEO_URL = 'https://yw01xrenpuvles8h.public.blob.vercel-storage.com/vsl/idm1-outubro-1.mp4';
+const VSL_POSTER_URL = 'https://yw01xrenpuvles8h.public.blob.vercel-storage.com/vsl/idm1-outubro-1-poster.jpg';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
@@ -152,33 +156,19 @@ const HeroSection = () => {
       if (error) console.error('Erro ao salvar lead no Supabase:', error);
     });
 
-    // Enviar lead ao CRM — aguarda para obter loginUrl de auto-login
-    const membersAreaUrl = import.meta.env.VITE_MEMBERS_AREA_URL as string | undefined;
-    let loginUrl: string | null = null;
-    try {
-      const crmResult = await Promise.race([
-        fetch('/api/crm-lead', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nome: trimmedName, email: trimmedEmail, whatsapp: whatsappNumber, cidade: formData.cidade, ...utms }),
-        }).then(async (r) => ({ ok: r.ok, data: r.ok ? await r.json() : null })),
-        new Promise<{ ok: false; data: null }>((resolve) =>
-          setTimeout(() => resolve({ ok: false, data: null }), 8000)
-        ),
-      ]);
-      if (crmResult.ok && crmResult.data?.loginUrl) {
-        loginUrl = crmResult.data.loginUrl;
-      }
-    } catch (err) {
-      console.error('Erro ao enviar lead ao CRM:', err);
-    }
+    // Envia o lead ao CRM em segundo plano (não bloqueia o redirect -- ver nota abaixo).
+    fetch('/api/crm-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome: trimmedName, email: trimmedEmail, whatsapp: whatsappNumber, cidade: formData.cidade, ...utms }),
+      keepalive: true,
+    }).catch((err) => console.error('Erro ao enviar lead ao CRM:', err));
 
-    const destination =
-      loginUrl ??
-      (membersAreaUrl
-        ? `${membersAreaUrl}/login`
-        : `/obrigado?nome=${encodeURIComponent(trimmedName)}`);
-    window.location.href = destination;
+    // O auto-login da área de membros (loginUrl) autentica certo, mas a sessão não gruda --
+    // a pessoa cai de volta em /login mesmo logada (bug de cookie na área de membros, ainda
+    // aberto). Até isso ser corrigido, todo lead vai pra página de obrigado do próprio site,
+    // que já tem o grupo e o e-book -- destino comprovado, sem depender da outra aplicação.
+    window.location.href = `/obrigado?nome=${encodeURIComponent(trimmedName)}`;
   };
 
   const formatPhone = (value: string) => {
@@ -264,6 +254,11 @@ const HeroSection = () => {
           <p className="text-md md:text-lg text-accent font-medium">
             AO VIVO NO YOUTUBE ÀS 20 HORAS
           </p>
+        </div>
+
+        {/* Vídeo de vendas — antes do formulário, padrão de todas as turmas */}
+        <div className="max-w-2xl mx-auto mb-10">
+          <VslPlayer videoUrl={VSL_VIDEO_URL} posterUrl={VSL_POSTER_URL} />
         </div>
 
         {/* Registration form */}
