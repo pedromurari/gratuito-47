@@ -20,7 +20,7 @@ export function ThankYouPage() {
     }
   }, []);
 
-  const whatsappLink = "https://chat.whatsapp.com/PENDENTE_GRUPO_VIP_47";
+  const whatsappLink = "https://chat.whatsapp.com/IUa88AAkqoV9QS5KQuJVif";
 
   return (
     <div className="min-h-screen bg-background">
@@ -85,8 +85,17 @@ export function ThankYouPage() {
 
           <InfoCard
             icon={<FileText className="w-16 h-16 text-warning" />}
-            title="Enviamos o E-book no seu WhatsApp"
-            description="Baixe o conteúdo enviado e já comece a estudar antes do curso começar."
+            title="Seu E-book já está liberado"
+            description="Baixe o e-book Desenvolvimento da Personalidade e já comece a estudar antes do curso começar."
+            button={
+              <CTAButton
+                href="https://drive.google.com/file/d/1Wk04rk8msKuEV5loMZa8Iilpowsn3BKq/view?usp=sharing"
+                size="default"
+                className="w-full"
+              >
+                📘 Baixar meu E-book
+              </CTAButton>
+            }
           />
         </div>
 
