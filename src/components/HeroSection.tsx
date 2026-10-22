@@ -5,10 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
 import CityAutocomplete from '@/components/CityAutocomplete';
-import { VslPlayer } from '@/components/VslPlayer';
-
-const VSL_VIDEO_URL = 'https://yw01xrenpuvles8h.public.blob.vercel-storage.com/vsl/idm1-outubro-1.mp4';
-const VSL_POSTER_URL = 'https://yw01xrenpuvles8h.public.blob.vercel-storage.com/vsl/idm1-outubro-1-poster.jpg';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
@@ -254,11 +250,6 @@ const HeroSection = () => {
           <p className="text-md md:text-lg text-accent font-medium">
             AO VIVO NO YOUTUBE ÀS 20 HORAS
           </p>
-        </div>
-
-        {/* Vídeo de vendas — antes do formulário, padrão de todas as turmas */}
-        <div className="max-w-2xl mx-auto mb-10">
-          <VslPlayer videoUrl={VSL_VIDEO_URL} posterUrl={VSL_POSTER_URL} />
         </div>
 
         {/* Registration form */}
