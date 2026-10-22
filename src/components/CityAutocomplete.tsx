@@ -61,7 +61,11 @@ const CityAutocomplete = ({ value, onChange, isInvalid }: CityAutocompleteProps)
 
   const handleInputChange = (text: string) => {
     setQuery(text);
-    if (value) onChange('');
+    // A cidade digitada já vale como resposta válida -- a lista é só uma ajuda
+    // pra formatar certinho (Nome - UF). Sem isso, quem mora numa cidade que
+    // não aparece na lista (erro de digitação, acento, cidade pequena etc.)
+    // ficava travado sem conseguir enviar o formulário e o lead se perdia.
+    onChange(text);
     if (text.trim().length < 2) {
       setSuggestions([]);
       setShowDropdown(false);
@@ -69,7 +73,7 @@ const CityAutocomplete = ({ value, onChange, isInvalid }: CityAutocompleteProps)
     }
     const normalizedQuery = normalize(text);
     const matches = municipios
-      .filter((m) => normalize(m.nome).startsWith(normalizedQuery))
+      .filter((m) => normalize(m.nome).includes(normalizedQuery))
       .slice(0, 8);
     setSuggestions(matches);
     setShowDropdown(matches.length > 0);
