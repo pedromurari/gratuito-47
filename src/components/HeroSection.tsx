@@ -5,6 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
 import CityAutocomplete from '@/components/CityAutocomplete';
+import { VslPlayer } from '@/components/VslPlayer';
+
+const VSL_YOUTUBE_ID = 'ZiQ3KpaoKVg';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
@@ -250,6 +253,11 @@ const HeroSection = () => {
           <p className="text-md md:text-lg text-accent font-medium">
             AO VIVO NO YOUTUBE ÀS 20 HORAS
           </p>
+        </div>
+
+        {/* Vídeo de vendas — hospedado no YouTube (não listado), Blob estourou a cota */}
+        <div className="max-w-2xl mx-auto mb-10">
+          <VslPlayer youtubeId={VSL_YOUTUBE_ID} />
         </div>
 
         {/* Registration form */}
