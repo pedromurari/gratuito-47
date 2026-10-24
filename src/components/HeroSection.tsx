@@ -7,7 +7,8 @@ import { toast } from '@/hooks/use-toast';
 import CityAutocomplete from '@/components/CityAutocomplete';
 import { VslPlayer } from '@/components/VslPlayer';
 
-const VSL_YOUTUBE_ID = 'ZiQ3KpaoKVg';
+const VSL_VIDEO_URL = 'https://pub-da74b2ec5ddf4847a6f20dec2e542925.r2.dev/vsl/semana-do-despertar.mp4';
+const VSL_POSTER_URL = 'https://pub-da74b2ec5ddf4847a6f20dec2e542925.r2.dev/vsl/semana-do-despertar-poster.jpg';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
@@ -257,7 +258,7 @@ const HeroSection = () => {
 
         {/* Vídeo de vendas — hospedado no YouTube (não listado), Blob estourou a cota */}
         <div className="max-w-2xl mx-auto mb-10">
-          <VslPlayer youtubeId={VSL_YOUTUBE_ID} />
+          <VslPlayer videoUrl={VSL_VIDEO_URL} posterUrl={VSL_POSTER_URL} />
         </div>
 
         {/* Registration form */}

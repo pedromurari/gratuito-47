@@ -2,28 +2,28 @@ import { useState } from 'react';
 import { Play } from 'lucide-react';
 
 interface VslPlayerProps {
-  youtubeId: string;
+  videoUrl: string;
+  posterUrl: string;
   className?: string;
 }
 
 // Player de vídeo "clique pra tocar" usado na página de captura, antes do
-// formulário de inscrição. Hospedado como não listado no YouTube (o Vercel
-// Blob usado antes estourou a cota gratuita de transferência) -- controls=0
-// e rel=0 escondem a interface padrão do YouTube até o clique.
-export function VslPlayer({ youtubeId, className = '' }: VslPlayerProps) {
+// formulário de inscrição. Vídeo e capa ficam no Cloudflare R2 (arquivo
+// próprio, sem UI de YouTube/Vimeo aparecendo, sem custo de banda de saída
+// -- bucket idm-webinarios, domínio público pub-*.r2.dev).
+export function VslPlayer({ videoUrl, posterUrl, className = '' }: VslPlayerProps) {
   const [tocando, setTocando] = useState(false);
-  const posterUrl = `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
 
   return (
     <div className={`relative w-full overflow-hidden rounded-2xl shadow-2xl border border-border/50 aspect-video bg-black ${className}`}>
       {tocando ? (
-        <iframe
-          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&controls=0&rel=0`}
-          title="Assistir ao vídeo"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
+        <video
+          src={videoUrl}
+          poster={posterUrl}
+          controls
+          autoPlay
+          playsInline
           className="h-full w-full"
-          frameBorder={0}
         />
       ) : (
         <button
