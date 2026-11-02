@@ -9,7 +9,7 @@ import NotFound from "./pages/NotFound";
 import LiveRedirect from "./pages/LiveRedirect";
 import WhatsAppRedirect from "./pages/WhatsAppRedirect";
 
-const AULAS_YT_IDS = ['T6LfqzG8eso', 'sOp_aHwcjPg', 'dOOnSHWIpAk'];
+const AULAS_YT_IDS = ['T6LfqzG8eso', 'C1-lGYLSWXk', 'F6t6ZVfRQKU'];
 
 const MATRICULA_WHATSAPP_PHONE = '5511919434040';
 const MATRICULA_WHATSAPP_MSG = 'Olá! Vim pela Semana do Despertar e quero garantir minha matrícula na Formação iDM com os bônus da oferta especial 🎓';
